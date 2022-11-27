@@ -9,6 +9,7 @@ import com.si.rategateway.infrastructure.mapper.RateMapper;
 import com.si.rategateway.service.RateService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,16 +28,20 @@ public class JsonRateController {
     private final RateService rateService;
 
     @PostMapping(path = "current", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public JsonCurrencyResponse requestCurrentCurrencyInfo(@RequestBody JsonCurrencyRequest request) {
+    public ResponseEntity<JsonCurrencyResponse> requestCurrentCurrencyInfo(@RequestBody JsonCurrencyRequest request) {
         JsonCurrencyRequestDto currencyRequestDto = RateMapper.mapJsonCurrencyRequestDto(request);
-        return mapToJsonCurrencyResponse(rateService.requestCurrency(currencyRequestDto));
+        JsonCurrencyResponse jsonCurrencyResponse = mapToJsonCurrencyResponse(rateService.requestCurrency(currencyRequestDto));
+        return ResponseEntity.ok()
+                .body(jsonCurrencyResponse);
     }
 
     @PostMapping(path = "history", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<JsonCurrencyResponse> requestHistoryCurrencyInfo(@RequestBody JsonCurrencyHistoryRequest request) {
+    public ResponseEntity<List<JsonCurrencyResponse>> requestHistoryCurrencyInfo(@RequestBody JsonCurrencyHistoryRequest request) {
         JsonCurrencyHistoryRequestDto currencyHistoryRequestDto = RateMapper.mapJsonCurrencyHistoryRequestDto(request);
-        return rateService.requestHistoryCurrency(currencyHistoryRequestDto).stream()
+        List<JsonCurrencyResponse> jsonCurrencyResponses = rateService.requestHistoryCurrency(currencyHistoryRequestDto).stream()
                 .map(RateMapper::mapToJsonCurrencyResponse)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok()
+                .body(jsonCurrencyResponses);
     }
 }

@@ -3,7 +3,7 @@ package com.si.rategateway.service;
 import com.si.rategateway.core.RateRequestLog;
 import com.si.rategateway.infrastructure.dto.JsonCurrencyRequestDto;
 import com.si.rategateway.infrastructure.dto.XmlCommandDto;
-import com.si.rategateway.infrastructure.exception.RecordAlreadyExists;
+import com.si.rategateway.infrastructure.exception.RecordAlreadyExistsException;
 import com.si.rategateway.repository.RateLogRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class RateLogServiceImpl implements RateLogService {
     @Override
     public void isExisting(String requestId) {
         if (rateLogRepository.existsByRequestId(requestId)) {
-            throw new RecordAlreadyExists(String.format("Record with requestId: %s already exists", requestId));
+            throw new RecordAlreadyExistsException(String.format("Record with requestId: %s already exists", requestId));
         }
     }
 }
