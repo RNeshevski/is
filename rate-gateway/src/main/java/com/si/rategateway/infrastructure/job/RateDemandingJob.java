@@ -27,7 +27,7 @@ public class RateDemandingJob {
     private final MessagingConfig messagingConfig;
     private final RabbitTemplate template;
 
-  //  @Scheduled(fixedDelayString = "#{jobConfig.delay}")
+    @Scheduled(fixedDelayString = "#{jobConfig.delay}")
     public void demandRates() {
         try {
             FixerRateResponse fixerRateResponse = fixerClient.getRates();
