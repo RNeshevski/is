@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface RateRepository extends JpaRepository<Rate, Long> {
-    Rate findTopByCurrencyOrderByCreatedAt(String currency);
+    Rate findTopByCurrencyOrderByCreatedAtDesc(String currency);
 
     List<Rate> findByCurrencyAndCreatedAtAfterOrderByCreatedAt(String currency, LocalDateTime time);
 }

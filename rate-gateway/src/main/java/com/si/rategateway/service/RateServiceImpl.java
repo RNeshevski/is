@@ -39,7 +39,7 @@ public class RateServiceImpl implements RateService {
     public Rate requestCurrency(JsonCurrencyRequestDto currencyRequestDto) {
         String requestId = currencyRequestDto.getRequestId();
         rateLogService.isExisting(requestId);
-        Rate rate = rateRepository.findTopByCurrencyOrderByCreatedAt(currencyRequestDto.getCurrency());
+        Rate rate = rateRepository.findTopByCurrencyOrderByCreatedAtDesc(currencyRequestDto.getCurrency());
         rateLogService.saveJsonLog(currencyRequestDto);
         publishMessage(mapToExternalMessage(currencyRequestDto));
         return rate;
@@ -64,7 +64,7 @@ public class RateServiceImpl implements RateService {
         List<Rate> rates = new ArrayList<>();
 
         if (xmlCommandDto.getPeriod() == 0) {
-            rates.add(rateRepository.findTopByCurrencyOrderByCreatedAt(currency));
+            rates.add(rateRepository.findTopByCurrencyOrderByCreatedAtDesc(currency));
         } else {
             rates = rateRepository.findByCurrencyAndCreatedAtAfterOrderByCreatedAt(currency,
                     LocalDateTime.now(UTC).minusHours(xmlCommandDto.getPeriod()));

@@ -30,7 +30,7 @@ public class XmlRateController {
         List<XmlCommandResponse> responses = rateService.commandCurrency(xmlCommandDto).stream()
                 .map(RateMapper::mapToXmlCommandResponse)
                 .collect(Collectors.toList());
-        xmlCommandResponseList.setResponses(responses);
+        xmlCommandResponseList.setXmlCommandResponse(responses);
         return xmlCommandResponseList;
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 @XmlRootElement()
 @XmlAccessorType(XmlAccessType.NONE)
 public class XmlCommandResponseList {
-    @XmlElement
     @XmlElementWrapper
-    List<XmlCommandResponse> responses;
+    List<XmlCommandResponse> xmlCommandResponse;
 }
